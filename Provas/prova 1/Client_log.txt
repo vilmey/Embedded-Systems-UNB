@@ -1,0 +1,97 @@
+Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 1; Dispositivo 2; Estado 0
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 2
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 1
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 2
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 2
+Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 2
+Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 2
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 1
+Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 1; Dispositivo 2; Estado 0
+Cliente 127.0.0.1; Setor 1; Dispositivo 3; Estado 0
+Cliente 127.0.0.1; Setor 2; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 2; Dispositivo 2; Estado 0
+Cliente 127.0.0.1; Setor 2; Dispositivo 3; Estado 0
+Cliente 127.0.0.1; Setor 3; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 3; Dispositivo 2; Estado 0
+Cliente 127.0.0.1; Setor 3; Dispositivo 3; Estado 0
+Cliente 127.0.0.1; Setor 3; Dispositivo 6; Estado 0
+Cliente 127.0.0.1; Setor 4; Dispositivo 1; Estado 1
+Cliente 127.0.0.1; Setor 4; Dispositivo 2; Estado 1
+Cliente 127.0.0.1; Setor 4; Dispositivo 2; Estado 0
+Cliente 127.0.0.1; Setor 5; Dispositivo 1; Estado 1
+Cliente 127.0.0.1; Setor 5; Dispositivo 5; Estado 0
+Cliente 127.0.0.1; Setor 5; Dispositivo 5; Estado 1
+Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+Thu May 19 16:42:32 2016
+ - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+Thu May 19 16:42:36 2016
+ - Cliente 127.0.0.1; Setor 1; Dispositivo 2; Estado 0
+Thu May 19 16:42:46 2016
+ - Cliente 127.0.0.1; Setor 1; Dispositivo 3; Estado 0
+Thu May 19 16:42:51 2016
+ - Cliente 127.0.0.1; Setor 5; Dispositivo 5; Estado 1
+Thu May 19 16:43:01 2016
+ - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 1
+Thu May 19 16:43:08 2016
+ - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 0
+ - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+ - Cliente 127.0.0.1; Setor 2; Dispositivo 2; Estado 0
+ - Cliente 127.0.0.1; Setor 3; Dispositivo 3; Estado 0
+ - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 1
+ - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+ - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 0
+ - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 1
+ - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 0
+16:58:33 de 19/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+16:58:38 de 19/5/2016 - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 0
+16:58:40 de 19/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+16:58:45 de 19/5/2016 - Cliente 127.0.0.1; Setor 5; Dispositivo 1; Estado 0
+16:58:50 de 19/5/2016 - Cliente 127.0.0.1; Setor 5; Dispositivo 1; Estado 1
+16:58:58 de 19/5/2016 - Cliente 127.0.0.1; Setor 5; Dispositivo 4; Estado 0
+19:52:2 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+19:52:6 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 2; Estado 0
+19:52:9 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 3; Estado 0
+19:52:12 de 22/5/2016 - Cliente 127.0.0.1; Setor 2; Dispositivo 1; Estado 0
+19:52:22 de 22/5/2016 - Cliente 127.0.0.1; Setor 2; Dispositivo 1; Estado 0
+19:52:25 de 22/5/2016 - Cliente 127.0.0.1; Setor 2; Dispositivo 3; Estado 0
+19:52:30 de 22/5/2016 - Cliente 127.0.0.1; Setor 3; Dispositivo 1; Estado 0
+19:52:34 de 22/5/2016 - Cliente 127.0.0.1; Setor 3; Dispositivo 6; Estado 0
+19:52:42 de 22/5/2016 - Cliente 127.0.0.1; Setor 4; Dispositivo 1; Estado 1
+19:52:52 de 22/5/2016 - Cliente 127.0.0.1; Setor 4; Dispositivo 2; Estado 0
+19:53:30 de 22/5/2016 - Cliente 127.0.0.1; Setor 4; Dispositivo 1; Estado 1
+19:53:36 de 22/5/2016 - Cliente 127.0.0.1; Setor 4; Dispositivo 1; Estado 0
+19:53:44 de 22/5/2016 - Cliente 127.0.0.1; Setor 4; Dispositivo 2; Estado 1
+19:53:48 de 22/5/2016 - Cliente 127.0.0.1; Setor 4; Dispositivo 2; Estado 0
+19:53:55 de 22/5/2016 - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 1
+19:54:14 de 22/5/2016 - Cliente 127.0.0.1; Setor 6; Dispositivo 2; Estado 0
+19:57:49 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+20:0:14 de 22/5/2016 - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 0
+20:0:22 de 22/5/2016 - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 1
+20:11:5 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+20:11:13 de 22/5/2016 - Cliente 127.0.0.1; Setor 4; Dispositivo 1; Estado 1
+20:11:37 de 22/5/2016 - Cliente 127.0.0.1; Setor 4; Dispositivo 2; Estado 0
+20:11:58 de 22/5/2016 - Cliente 127.0.0.1; Setor 6; Dispositivo 1; Estado 1
+20:35:33 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+20:36:12 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+22:21:45 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+22:22:2 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+22:22:17 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 2; Estado 0
+22:22:23 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+22:22:30 de 22/5/2016 - Cliente 127.0.0.1; Setor 2; Dispositivo 1; Estado 0
+22:25:36 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+22:25:43 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 2; Estado 0
+22:25:49 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 3; Estado 0
+22:25:53 de 22/5/2016 - Cliente 127.0.0.1; Setor 2; Dispositivo 1; Estado 0
+22:25:59 de 22/5/2016 - Cliente 127.0.0.1; Setor 2; Dispositivo 1; Estado 0
+22:27:3 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+22:27:12 de 22/5/2016 - Cliente 127.0.0.1; Setor 2; Dispositivo 1; Estado 0
+22:27:29 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+22:28:25 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+22:28:29 de 22/5/2016 - Cliente 127.0.0.1; Setor 1; Dispositivo 2; Estado 0
+22:28:40 de 22/5/2016 - Cliente 127.0.0.1; Setor 2; Dispositivo 3; Estado 0
+22:28:43 de 22/5/2016 - Cliente 127.0.0.1; Setor 2; Dispositivo 3; Estado 0

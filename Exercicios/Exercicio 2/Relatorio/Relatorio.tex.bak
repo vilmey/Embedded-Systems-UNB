@@ -1,0 +1,125 @@
+% Template for FPL 2012 papers; to be used with:
+%          spconf.sty   - ICASSP/ICIP LaTeX style file
+%          IEEEtran.bst - IEEE bibliography style file
+
+% Created:  Apr-May 2005 - Riku Uusikartano -- riku.uusikartano@tut.fi
+% Modified: March-2012 - Daniel Muñoz Arboleda -- damuz@unb.br
+% --------------------------------------------------------------------------
+
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{spconf,amsmath,epsfig}
+\usepackage[brazilian]{babel} % Suporte para o Português
+\usepackage[latin1]{inputenc} % Suporte para acentuação sem necessidade dos comandos especiais.
+%\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage[]{subfigure}
+\usepackage[portuguese,algoruled,longend]{algorithm2e}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+
+% Titulo do documento
+% -------------------
+\title{Trabalho Individual \# 2 \\ Aplay}
+
+
+% Nome dos autores
+% ----------------
+\name{
+Vilmey Francisco Romano Filho - 11/0021380}
+\address{Programa de Graduação em Engenharia Eletrônica, Faculdade Gama\\
+Universidade de Brasília\\
+Gama, DF, Brasil\\
+email: vilmeyr@gmail.com}
+
+
+\hyphenation{Tam-pe-re ela-bo-ra-cao}
+
+\begin{document}
+
+\maketitle
+
+\section{Objetivo}
+
+Este exercício pratico tem como objetivo colocar em prática a abertura e leitura de arquivos assim como a criação de pipes, para a comunicação entre diversas aplicações presentes no sistema operacional.
+
+\section{Introdução}
+
+Elaboração de um programa em linguagem C capaz de executar arquivos música não compactados, no formato WAV com a utilização da aplicação nativa do Linux APLAY. Este programa deve ser capaz de ser executado na plataforma Raspberry PI.
+
+\section{Especificação}
+
+\subsection{Listagem de media}
+A primeira etapa deste programa consiste em listar todas as medias .wav do diretório local. E para isso geramos um arquivo com todas as musicas com o comando \textit{system("ls | grep wav > media.log")}. Após a criação do log de musicas abrimos o arquivo para leitura e armazenamos os nomes das mídias em um array de strings (musicas[][]).\\
+De posse dos nomes das musicas, pedimos para o usuário que escolha um das opções listadas, esta opção será gravada na string (musica[]).
+
+
+\subsection{Abertura da mídia}
+O próximo passo é a abertura da música para leitura, e a abertura do pipe de comunicação para escrita. De posse dos descritores do arquivo de audio e do pipe stream podemos começar a execução do arquivo.
+
+\subsection{Leitura e execução}
+A função \textit{feof()} foi utilizada como critério de parada do laço de repetição \textit{while()}. A função \textit{feof()} retorna 1 qundo no final do arquivo.\\
+O audio é lido por meio da função \textit{fread()} para o buffer, que é consequentemente escrito no pipe \textit{write()}.\\
+Quando a execução do arquivo é finalizada fechamos a comunicação com o pipe e fechamos também o arquivo de audio.
+
+
+\section{Conclusões}
+
+O experimento ocorreu de acordo com o esperado. Proporcionou uma melhor vizualização do papel dos pipes, e ofereceu novas utilidades aos programas em C quando combinados com os apricativos presentes no sistema operacional.
+
+\newpage
+
+
+\section{Código}
+
+\lstinputlisting[language=C]{Codigo/aplay_codigo}
+
+
+
+%\section{Referências}
+% Microelectronic Circuits (Adel S. Sedra, Kenneth C. Smith), Oxford University Press, 2004
+%\small
+%% IEEEtran is a LaTeX style file defining the reference formatting.
+%% -----------------------------------------------------------------
+%\bibliographystyle{IEEEtran}
+%\bibliography{IEEEabrv,labrefs}
+%%\bibliography{IEEEabrv,fpl_refs}
+
+
+\end{document}

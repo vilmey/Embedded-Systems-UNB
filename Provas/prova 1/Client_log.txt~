@@ -1,0 +1,12 @@
+Cliente 127.0.0.1; Setor 5; Dispositivo 1; Estado 2
+Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 5; Dispositivo 1; Estado 1
+Cliente 127.0.0.1; Setor 5; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 1; Dispositivo 1; Estado 0
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 1
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 2
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 1
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 2
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 1
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 2
+Cliente 127.0.0.1; Setor 0; Dispositivo 0; Estado 1

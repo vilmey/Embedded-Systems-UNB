@@ -1,0 +1,163 @@
+% Template for FPL 2012 papers; to be used with:
+%          spconf.sty   - ICASSP/ICIP LaTeX style file
+%          IEEEtran.bst - IEEE bibliography style file
+
+% Created:  Apr-May 2005 - Riku Uusikartano -- riku.uusikartano@tut.fi
+% Modified: March-2012 - Daniel Muñoz Arboleda -- damuz@unb.br
+% --------------------------------------------------------------------------
+
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{spconf,amsmath,epsfig}
+\usepackage[brazilian]{babel} % Suporte para o Português
+\usepackage[latin1]{inputenc} % Suporte para acentuação sem necessidade dos comandos especiais.
+%\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage[]{subfigure}
+\usepackage[portuguese,algoruled,longend]{algorithm2e}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+
+% Titulo do documento
+% -------------------
+\title{Travalho Individual \# 1 \\ Comunicação Uart}
+
+
+% Nome dos autores
+% ----------------
+\name{
+Vilmey Francisco Romano Filho - 11/0021380}
+\address{Programa de Graduação em Engenharia Eletrônica, Faculdade Gama\\
+Universidade de Brasília\\
+Gama, DF, Brasil\\
+email: vilmeyr@gmail.com}
+
+
+\hyphenation{Tam-pe-re ela-bo-ra-cao}
+
+\begin{document}
+
+\maketitle
+
+\section{Objetivo}
+
+Esta trabalho prático tem a finalidade exemplificar e reunir técnicas aprendidas em sala de aula para a solução de problemas. Nesta prática damos ênfase a comunicação entre um sistema complexo com SO embarcado e um microcontrolado, neste caso um Raspberry PI e um arduino (via UART).
+
+\section{Introdução}
+
+O microcontrolador ATmega possui muitas ferramentas úteis ao engenheiro, este controlador pode se communicar com outros dispositivos atravéz de protocolo de comunicação serial UART(Universal asynchronous receiver/transmitter). Para a comunicação entre a (Raspberry Pi) e o microcontrolator esse protocolo se mostra eficiente, pois ambos não tem que compartilhar um sinal de clock.
+\\O programa em C deve ser capaz de receber comandos via terminal (Raspberry PI) e ser capaz de enviar e receber strings, inteiros e ponto flutuantes do controlador.
+
+\section{Especificação}
+
+\subsection{Escrita de dados}
+Todas as mensagens de solicitação de dados enviadas pela porta
+serial devem seguir o padrão: Código do comando solicitado figura[\ref{fig:Comandos para envio e tipo de retorno..}] + Quatro
+últimos dígitos da matrícula em formado char.
+Exemplo de Mensagem com o comando 0xA3 (Hexadecimal) = 163 (Decimal) e a
+matrícula ?1380? ao final:
+char[] = {163, 1, 3, 8, 0};
+Já as mensagens de envio de dados deverão ser compostas por: Comando + Dado +
+Matrícula. No caso do envio de uma String, o formato deverá ser: Comando +
+Tamanho da String (1 byte) + String + Matrícula.
+
+
+
+\subsection{Leitura de dados}
+A leitura de dados deve seguir o padrão de retorno da Tabela 1.
+Para valores inteiros (int) ou reais (float), deverão ser lidos 4 bytes e armazenados em
+uma variável int ou float, respectivamente. Para leitura de strings, a mensagem de
+retorno irá conter o número total de caracteres da string no primeiro byte (Valor entre 0
+e 255), em seguida, é possível ler o conteúdo da mensagem que deverá ser
+armazenada em um array de char (char[]);
+
+\begin{figure}[!htb]
+	\centering
+		\includegraphics[width=9cm]{figs/tab1}
+		%\includegraphics[scale=0.9]{figs/tab1}
+	\caption{Comandos para envio e tipo de retorno.}
+	\label{fig:Comandos para envio e tipo de retorno..}
+\end{figure}
+
+
+
+\section{Implementação}
+
+Foi criado um menu com as opções de solicitar: inteiro, float ou string, assim como enviar: inteiro, float ou string ao controlador.
+Quando o usuário seliciona a opção desejada é direcionado a uma função específica que é responsável por tratar os dados e realizar a comunicação devidamente.
+
+A main do programa passa os parâmetros basicos para os procedimentos como o comando, a matricula e o filestream. Já dentro dos procedimentos a sua função irá variar de acordo com o tipo de variável (de envio ou recebimento).
+
+O que ocorre no geral é a concatenação das informações e consequentemente o envio deste ao arduino por meio do comando \textit{write}.
+
+As concatenaçoes foram feitas utilizando o comando \textit{memcpy}, que é uma versão mais baixo nível em relação as funções formatadas.
+
+Quando é necessário a leitura de um retorno utilizamos o comando \textit{read} que irá armazenar a resultado em um \textit{void buffer}.
+
+Os dados recebidos são apresentados em tela com o comando \textit{printf}.
+
+\newpage
+
+
+\section{Conclusões}
+
+A prova prática foi contrutiva no tocante a parte de comunicação entre dispositivos, pois a mesma englobou um protocolo bastante usado para comunicação entre dispositivos e perifericos.
+
+O experimeto ocorreu bem, apesar das dificuldades inicias para transmitir os comando  para o controlador. Porém uma vez aprendido esses conceitos foi possivel extende-los ao esperado no final do trabalho prático.
+
+\newpage
+
+
+\section{Código}
+
+\lstinputlisting[language=C]{Codigo/From_scratch.c}
+
+
+
+%\section{Referências}
+% Microelectronic Circuits (Adel S. Sedra, Kenneth C. Smith), Oxford University Press, 2004
+%\small
+%% IEEEtran is a LaTeX style file defining the reference formatting.
+%% -----------------------------------------------------------------
+%\bibliographystyle{IEEEtran}
+%\bibliography{IEEEabrv,labrefs}
+%%\bibliography{IEEEabrv,fpl_refs}
+
+
+\end{document}

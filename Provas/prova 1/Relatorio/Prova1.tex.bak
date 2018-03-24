@@ -1,0 +1,205 @@
+% Template for FPL 2012 papers; to be used with:
+%          spconf.sty   - ICASSP/ICIP LaTeX style file
+%          IEEEtran.bst - IEEE bibliography style file
+
+% Created:  Apr-May 2005 - Riku Uusikartano -- riku.uusikartano@tut.fi
+% Modified: March-2012 - Daniel Muñoz Arboleda -- damuz@unb.br
+% --------------------------------------------------------------------------
+
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{spconf,amsmath,epsfig}
+\usepackage[brazilian]{babel} % Suporte para o Português
+\usepackage[latin1]{inputenc} % Suporte para acentuação sem necessidade dos comandos especiais.
+%\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage[]{subfigure}
+\usepackage[portuguese,algoruled,longend]{algorithm2e}
+\usepackage{multirow}
+\usepackage[final]{pdfpages}
+
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+
+
+% Titulo do documento
+% -------------------
+\title{Prova Prática \# 1 \\ Cliente/Servidor}
+
+
+% Nome dos autores
+% ----------------
+\name{
+Vilmey Francisco Romano Filho - 11/0021380}
+\address{Programa de Graduação em Engenharia Eletrônica, Faculdade do Gama\\
+Universidade de Brasília\\
+Gama, DF, Brasil\\
+email: vilmeyr@gmail.com}
+
+
+\hyphenation{Tam-pe-re ela-bo-ra-cao}
+
+\begin{document}
+
+\maketitle
+
+\section{Objetivo}
+
+Esta prova prático tem o objetivo de exemplificar e reunir técnicas aprendidas em sala de aula, como threds, sockets, pipes dentre outras ferramentas de programação. Nesta prova damos ênfase em sockets e programação em rede utilizando o protocolo TCP/IP para a elaboração de um cliente, capaz de receber requerimentos do usuário e um servidor capaz de se comunicar com um arduino (via UART).
+
+\section{Introdução}
+
+O microcontrolador ATmega possui muitas ferramentas úteis ao engenheiro, este controlador pode se communicar com outros dispositivos atravéz de protocolo de comunicação serial UART(Universal asynchronous receiver/transmitter). Para a comunicação entre o servidor (Raspberry Pi) e o microcontrolator esse protocolo se mostra eficiente, pois ambos não tem que compartilhar um sinal de clock. Uma vez estabelecida essa comunicação inicial o servidor deve ser capaz de receber requerimentos do cliente e tratá-los, pegando informações sobre temperatura, ligar ou desligar o dispositivos elétricos e controlar um sistema de alarme, junto ao controlador, e enviar a resposta ao cliente.
+\\Já o código do cliente deve receber comandos do usuário via teminal e fazer a requisição junto ao servidor, posteriomente atualizar os dados mostrados ao usuário.\\
+Sockets foram utilizados para criar o códigos tanto do cliente quanto do servidor, e a comunicação adotada foi o protocolo TCP/IP o qual é orientado a conexão assim os pacotes enviados são recebidos ordenadamente, evitando overhead e simplificando a troca de informações.
+
+\section{Especificação}
+
+\subsection{Cliente}
+O código do cliente possui uma interface gráfica rudimentar no terminal na qual oferece ao usuário as opções apresentadas nas tabelas [\ref{fig:Comandos disponiveis para envio e tipo de retorno..} e \ref{fig:Comandos para envio e tipo de retorno..}].
+A escolha das funções foi dividida em setores de temoeratura, presença, portas e janelas, ar-condicionado, lâmpadas e alarme.
+
+Ao digitar o comando corretamente o cliente se conecta ao servidor na porta especifica e envia dados de acionameto de equipameto ou faz um requerimento de dados de temperatura e presença.
+
+O protocolo de comunicação entre o cliente e servidor funciona da seguinte maneira. Todos os dados enviados ao servidor são do tipo inteiro. E a resposta do servidor depende do tipo de \textit{request}, para temperatura, \textit{float} e para estatus (ligado/desligado) e presença o servidor retorna um \textit{char}.
+
+\begin{figure}[!htb]
+	\centering
+		\includegraphics[width=9cm]{figs/tabela1}
+		%\includegraphics[scale=0.9]{figs/tabela1}
+	\caption{Comandos disponiveis para envio e tipo de retorno.}
+	\label{fig:Comandos disponiveis para envio e tipo de retorno..}
+\end{figure}
+
+\begin{figure}[!htb]
+	\centering
+		\includegraphics[width=9cm]{figs/tabela2}
+		%\includegraphics[scale=0.9]{figs/tabela2}
+	\caption{Comandos para envio e tipo de retorno.}
+	\label{fig:Comandos para envio e tipo de retorno..}
+\end{figure}
+
+\subsection{Servidor}
+O servidor é responsável por receber os requerimentos do cliente em uma porta específica (alarme 4034, demais 8034), enviar e receber os dados do microcontrolador via UART. É importante que o servidor respeite os limites de velocidade de comunicação (9600 bauds). Após a comunicação com controlador o servidor pode enviar mensagem de resposta ao cliente, esta mensagem pode ser uma temperatura ou uma resposta a requisição de ligar ou desligar dispositivos.
+
+
+\section{Implementação}
+
+\subsection{Cliente}
+A tela apresentada ao usuário é apresentado abaixo na figura[\ref{fig:Tela usuario.}]. O programa captura as entradas do teclado numérico para prosseguir no menu de opções.
+
+\begin{figure}[!htb]
+	\centering
+		\includegraphics[width=9cm]{figs/fig1}
+		%\includegraphics[scale=0.9]{figs/tabela2}
+	\caption{Tela de comando.}
+	\label{fig:Tela usuario.}
+\end{figure}
+
+
+\vspace{5pt}
+
+
+\vspace{5pt}
+A leitura do teclado se encontra dentro da função menu, que é responsável tembém por imprimir na tela as opções. Se o comando for válido chamamos a função \textit{open$\_$socket} com o numero da porta específica e a opção desejada.
+
+E finalmente, o comando digitado pelo usuário é enviado ao servidor, a resposta do servidor é armazenada em uma variável de tipo especifico a requisição.
+
+
+
+
+\newpage
+\clearpage
+
+
+\subsection{Servidor}
+
+Na finção \textit{Log\_data} criamos um arquivo no formato .txt que armazena a data, horário, IP do cliente conectado e operação requisitada (HH:MM:SS - DD/MM/AAAA - Cliente $<IP>$; Setor $<1-6>$; Dispositivo $<X>$; Estado $<0-1>$). Foi necessário adicionar o header \textit{<time.h>} para que a \textit{struct} responsável pela data e hora funcionasse adequadamente.
+
+
+A configuração da UART figura[\ref{fig:Configuracao UART.}] é um dos passos mais importantes do processo, pois sem ela não é possivel se comunicar eficientemente com o controlador. Após termos a nossa UART devidamente configurada, criamos uma thread de servidor para cada porta, pois cada porta terá diferentes tipos de serviços.
+
+\begin{figure}[!htb]
+	\centering
+		\includegraphics[width=9cm]{figs/fig2}
+		%\includegraphics[scale=0.9]{figs/tabela2}
+	\caption{Configuração UART.}
+	\label{fig:Configuracao UART.}
+\end{figure}
+
+Os servidores ficarão esperando em suas respectivas portas pela conexão do cliente, e uma vez que o cliente se conecte, pegamos o seu IP que se encontra dentro do banco de informações do cliente (struct). Esta informaçao será adicionada ao log do sistema, juntamente com o comando recebido.
+
+Na função TrataClienteTCP revebemos o pacote de informações do cliente, o separamos em Setor, qual Dispositvo, e Estado (ligado, desligado). Chamamos a função enviaArduino que fará a comunicação com o controlador, e se for o caso enviará a resposta ao cliente por meio das funçãoes Envia\_char\_cliente e Envia\_float\_cliente.
+
+Quando o alarme é setado a thread Verifica\_sensor varre os sensores do setor específico (setor 1 e/ou 2), e caso detecte a presença enquanto o alarme estiver acionado, um alarme é tocado com a função play\_alarm\_music.
+O alarme somente será desligado quando o cliente enviar o comando desabilitando a função.
+
+\newpage
+
+
+\section{Conclusões}
+
+A prova prática foi contrutiva no tocante a parte de comunicação entre dispositivos, pois a mesma englobou diferentes protocolos e dispositivos.
+Esta prova foi uma aplicação prática do conhecimento e se mostrou muito interessante para futuras aplicações em sistemas de monitoramento remoto de qualquer tipo, sendo limitada apenas pelo hardware do dispositivo utilizado.
+
+
+
+\section{Anexo - Códigos}
+
+
+\includepdf[pages=-]{Codigo/cliente_tcp.pdf}
+\includepdf[pages=-]{Codigo/servidor_tcp.pdf}
+\includepdf[pages=-]{Codigo/play_alarm.pdf}
+%\lstinputlisting[language=C]{Codigo/cliente_tcp}
+%\lstinputlisting[language=C]{Codigo/servidor_tcp}
+%\lstinputlisting[language=C]{Codigo/play_alarm}
+
+
+
+%\section{Referências}
+% Microelectronic Circuits (Adel S. Sedra, Kenneth C. Smith), Oxford University Press, 2004
+%\small
+%% IEEEtran is a LaTeX style file defining the reference formatting.
+%% -----------------------------------------------------------------
+%\bibliographystyle{IEEEtran}
+%\bibliography{IEEEabrv,labrefs}
+%%\bibliography{IEEEabrv,fpl_refs}
+
+
+\end{document}

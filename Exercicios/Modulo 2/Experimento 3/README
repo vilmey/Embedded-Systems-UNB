@@ -1,0 +1,31 @@
+/////////////////////////////////////////////////////
+//Universidade de Brasília - Faculdade do Gama
+//Disciplina: Sistemas Embarcados 1/2016
+//Autor: Vilmey Francisco Romano Filho - 11/0021380
+/////////////////////////////////////////////////////
+
+
+Laboratório 3 : Serviço de gerenciamento de tasks
+
+Gerenciamento de periodicidade e prioridade de tarefas de um sistemas
+em tempo real. Aquisição de dados sobre as tarefas do sistema e 
+tratamento de erros. 
+
+/////////////////////////////////////////////////////
+//EXPORTAR FLAGS
+/////////////////////////////////////////////////////
+
+		$. ./config.sh
+		
+		
+
+/////////////////////////////////////////////////////
+//COMPILAR
+/////////////////////////////////////////////////////
+
+		$. ./config.sh <programa.c> <executavel>
+
+		ou
+
+		$gcc $CFLAGS $LDFLAGS <programa.c> -o <executavel>
+

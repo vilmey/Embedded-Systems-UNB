@@ -1,0 +1,162 @@
+% Template for FPL 2012 papers; to be used with:
+%          spconf.sty   - ICASSP/ICIP LaTeX style file
+%          IEEEtran.bst - IEEE bibliography style file
+
+% Created:  Apr-May 2005 - Riku Uusikartano -- riku.uusikartano@tut.fi
+% Modified: March-2012 - Daniel Muñoz Arboleda -- damuz@unb.br
+% --------------------------------------------------------------------------
+
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{spconf,amsmath,epsfig}
+\usepackage[brazilian]{babel} % Suporte para o Português
+\usepackage[latin1]{inputenc} % Suporte para acentuação sem necessidade dos comandos especiais.
+%\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage[]{subfigure}
+\usepackage[portuguese,algoruled,longend]{algorithm2e}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+
+% Titulo do documento
+% -------------------
+\title{Trabalho Final \\ Controle Mesa X-Y Real Time}
+
+
+% Nome dos autores
+% ----------------
+\name{
+Vilmey Francisco Romano Filho - 11/0021380}
+\address{Programa de Graduação em Engenharia Eletrônica, Faculdade Gama\\
+Universidade de Brasília\\
+Gama, DF, Brasil\\
+email: vilmeyr@gmail.com}
+
+
+\hyphenation{Tam-pe-re ela-bo-ra-cao}
+
+\begin{document}
+
+\maketitle
+
+\section{Objetivo}
+
+Esta trabalho prático o objetivo de efetuar o controle de uma mesa XY controlada por motores de passo.
+Implementação de um sistema embarcado de controle de uma mesa X \& Y acionada por motores
+de passo e controlado remotamente. O projeto será constituído pelo Raspberry Pi rodando o SO
+com Xenomai, um Arduíno com placas de potência para acionamento dos dois motores de passo
+e um PC como cliente.
+
+\section{Introdução}
+
+O sistema de controle do sistema necessita que as operações sejam executadas periodicamente dentro de um período específico, que será predeterminado. E para esta finalidade, deve ser utilizado um sistema operacional de tempo real, o qual propicia grande controle das variáveis de tempo e periodicidade das \textit{tasks} necessárias do sistema.
+
+\section{Especificação}
+
+\subsection{Aquisição de dados}
+A aquisição de dados é feita por meio de um menu, onde o usuário entra com informações sobre a figura geométrica desejada.
+Não foi implementado a comunicação cliente-servidor, porém o programa principal apresenta todas as funcionalidades de acionamento de motores e cálculo de trajetórias.
+
+\subsection{Cálculo de Vértices}
+Com base na figura escolhida pelo usuário, juntamente com o dado de centro da figura, é possível localizar graficamente todos os pontos necessário para a construção da figura geométrica.
+
+\subsection{Cálculo das Rotas}
+Os seguimentos de reta que compõem a figura pode ser calculada com base na equação de Pitágoras 
+\begin{equation}
+Distancia_{Linear} = \sqrt{(x_{final}-x_{inicial})^{2} + (y_{final} - y_{inicial})^{2}}
+\end{equation}
+onde obtemos a distância linear a ser percorrida.
+
+\subsection{Cálculo dos Passos}
+Para o sistema proposto uma revolução equivale a 200 passos, e como a polia do motor possui diâmetro de 1 cm, a cada passo são incrementados 0.0157 cm linearmente.
+Dividindo a distância a ser percorrida no eixo, x ou y, pelo tamanho do passo temos quantitativamente o numero de passos necessários para atingir o ponto final.
+
+\begin{equation}
+Passos_x = \frac{x_{final}-x_{inicial}}{0.0157}
+\end{equation}
+
+
+\begin{equation}
+Passos_y = \frac{y_{final}-y_{inicial}}{0.0157}
+\end{equation}
+
+
+\subsection{Tempo de Execução e Período da \textit{Task}}
+A velocidade de avanço inserida pelo usuário é utilizada para calcular o tempo disponível para que a distância linear seja percorrida. Dividindo a distância linear pela velocidade temos o tempo de execução total do seguimento de reta.
+
+\begin{equation}
+Tempo_{Execucao} = \frac{Distancia_{Linear}}{Velocidade}
+\end{equation}
+
+
+ Dividindo o tempo de execução do seguimento de reta pelo número de passos, no eixo X ou Y, temos o período da \textit{task}.
+\begin{equation}
+Periodo_{Task} = \frac{Tempo_{Execucao}*10^{6}}{|passos|}
+\end{equation}
+
+
+\section{Implementação em RT}
+
+Para o acionamento dos motores, foram criadas \textit{Tasks} específicas para o controle dos passos. O motor deve ser capaz de percorrer um passo a cada borda do pulso de acionamento, e ainda quando enviado o símbolo 0 os motores devem ser capazes de avançar de maneira crescente no plano cartesiano, enquanto o símbolo 1 implica no avanço negativo.
+
+\newpage
+
+
+\section{Conclusões}
+
+Apesar da implementação do sistema não ter sido feita de maneira completa com o uso de cliente e servidor, a ideia básica do funcionamento e operação de um sistema de controle em tempo real pode ser abstraída.
+O protótipo é funcional, calculando as rotas para retângulos ou triangulo-retângulo, e capaz de acionar um motor de passo como requerido.
+
+\newpage
+
+
+
+
+
+%\section{Referências}
+% Microelectronic Circuits (Adel S. Sedra, Kenneth C. Smith), Oxford University Press, 2004
+%\small
+%% IEEEtran is a LaTeX style file defining the reference formatting.
+%% -----------------------------------------------------------------
+%\bibliographystyle{IEEEtran}
+%\bibliography{IEEEabrv,labrefs}
+%%\bibliography{IEEEabrv,fpl_refs}
+
+
+\end{document}

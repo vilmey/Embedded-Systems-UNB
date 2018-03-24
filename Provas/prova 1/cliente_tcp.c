@@ -1,0 +1,267 @@
+//Compilação//
+//	gcc cliente_tcp.c -o cliente_tcp
+
+//Execução//
+// ./cliente_tcp <ip do servidor>
+
+//-------------------------------------------------------------------------------------------------------
+//Includes do programa//
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <pthread.h>
+#include <termios.h>
+#include <fcntl.h>
+
+//-------------------------------------------------------------------------------------------------------
+//Variáveis globais//
+unsigned short PORTA_ALARME = 4034;
+unsigned short PORTA_GERAL  = 8034;
+
+
+//-------------------------------------------------------------------------------------------------------
+//Menu do Cliente//
+
+int menu(int opcao, int recursao)
+{
+	int escolha;
+
+	//Opções de Escolha do Cliente//
+	switch(opcao)
+	{
+		//Menu geral
+		case 0:
+			printf("[1] - Temperatura\n");
+			printf("[2] - Presença\n");
+			printf("[3] - Portas/Janelas\n");
+			printf("[4] - Ar-condicionado\n");
+			printf("[5] - Lampadas\n");
+			printf("[6] - Alarme\n");
+			scanf("%d", &escolha);
+			
+			if((escolha < 1) || (escolha > 6))
+				return 0;
+
+			return menu(escolha, 0);			//Retorna a propria função
+
+		//Menu temperatura
+		case 1:
+			printf("[1] - Externa\n");
+			printf("[2] - Interna da Sala\n");
+			printf("[3] - Interna do quarto\n");
+			scanf("%d", &escolha);
+			
+			if((escolha < 1) || (escolha > 3))
+				return 0;
+
+			return (1000 + 10*escolha);
+
+		//Menu Presenca
+		case 2:
+			printf("[1] - Entrada Principal\n");
+			printf("[2] - Entrada de Serviço\n");
+			printf("[3] - Garagem\n");
+			scanf("%d", &escolha);
+			
+			if((escolha < 1) || (escolha > 3))
+				return 0;
+
+			
+			return (2000 + 10*escolha);
+
+		//Menu Portas/Janelas
+		case 3:
+			printf("[1] - Porta principal\n");
+			printf("[2] - Porta de serviço\n");
+			printf("[3] - Porta garagem\n");
+			printf("[4] - Janela da sala\n");
+			printf("[5] - Janela do quarto\n");
+			printf("[6] - Janela da cozinha\n");
+			scanf("%d", &escolha);
+			
+			if((escolha < 1) || (escolha > 6))
+				return 0;
+
+			return (3000 + 10*escolha);
+
+		//Menu Ar-condicionado
+		case 4:	
+			printf("[1] - Sala\n");
+			printf("[2] - Quarto\n");
+			scanf("%d", &escolha);
+			
+			if((escolha < 1) || (escolha > 2))
+				return 0;
+
+			return menu(7, (4000 + 10*escolha));		//Retorna o menu, na opção estado (Ligado/Desligado)
+
+		//Menu Lampadas
+		case 5:
+			printf("[1] - Entrada principal\n");
+			printf("[2] - Entrada de serviço\n");
+			printf("[3] - Garagem\n");
+			printf("[4] - Sala\n");
+			printf("[5] - Quarto\n");
+			printf("[6] - Cozinha\n");
+			scanf("%d", &escolha);
+
+			if((escolha < 1) || (escolha > 6))
+				return 0;
+			return menu(7, (5000 + 10*escolha));
+
+		//Menu Alarme
+		case 6:
+			printf("[1] - Setor 1 (Sensores de Presença)\n");
+			printf("[2] - Setor 2 (Sensores de Portas/ Janelas)\n");
+			scanf("%d", &escolha);
+
+			if((escolha < 1) || (escolha > 2))
+				return 0;
+			return menu(7, (6000 + 10*escolha));
+
+		//Menu Estado Ligado ou Desligado
+		case 7:
+			printf("[1] - Liga\n");
+			printf("[0] - Desliga\n");
+			scanf("%d", &escolha);
+			
+			if((escolha < 0) || (escolha > 1))
+				return 0;
+			
+			return (escolha + recursao);
+
+		default:
+			printf("Opção Inválida.\n");
+			return 0;
+	}
+}
+
+//-------------------------------------------------------------------------------------------------------
+//Funções de envio e recebimento de dados//
+
+//Recebe float do servidor
+void receive_float(int *clienteSocket)
+{
+	float temperatura;
+
+	if((recv(*clienteSocket, &temperatura, sizeof(float), 0)) < 0)
+		printf("Erro no recv()\n");
+
+	printf("Temperatura %f\n", temperatura);
+
+	close(*clienteSocket);
+}
+
+//Recebe char do servidor
+void receive_char(int *clienteSocket)
+{
+	char mensagem;
+
+	if((recv(*clienteSocket, &mensagem, sizeof(char), 0)) < 0)
+		printf("Erro no recv()\n");
+
+	printf("Estado %c\n", mensagem);
+
+	close(*clienteSocket);
+}
+
+//Envia um request de para o servidor
+void request(int *clienteSocket, int mensagem)
+{
+	int bytesRecebidos;
+	int buffer;
+
+	if(send(*clienteSocket, &mensagem, sizeof(int), 0) != sizeof(int))
+		printf("Erro no envio: numero de bytes enviados diferente do esperado\n");
+	
+}
+
+
+//-------------------------------------------------------------------------------------------------------
+//Abertura do socket//
+void socket_open(int *clienteSocket, struct sockaddr_in *servidorAddr, char *IP_Servidor, unsigned short servidorPorta)
+{
+	// Criar Socket
+	if((*clienteSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
+		printf("Erro no socket()\n");
+
+	// Construir struct sockaddr_in
+	memset(servidorAddr, 0, sizeof(*servidorAddr)); // Zerando a estrutura de dados
+	servidorAddr->sin_family = AF_INET;
+	servidorAddr->sin_addr.s_addr = inet_addr(IP_Servidor);
+	servidorAddr->sin_port = htons(servidorPorta);
+
+	// Connect
+	if(connect(*clienteSocket, (struct sockaddr *) servidorAddr, sizeof(*servidorAddr)) < 0)
+		printf("Erro no connect()\n");
+
+}
+
+
+//-------------------------------------------------------------------------------------------------------
+//Função principal//
+
+int main(int argc, char *argv[]) {
+	
+	//Variaveis locais//
+	int clienteSocket;
+	int escolha;
+	struct sockaddr_in servidorAddr;
+	unsigned short servidorPorta = PORTA_GERAL;
+	char *IP_Servidor;
+
+	if ((argc < 2) | (argc > 3)) 
+	{
+		printf("Uso: %s <IP do Servidor>\n", argv[0]);
+		exit(1);
+	}
+
+	//Ip via linha de comando
+	IP_Servidor = argv[1];
+	
+
+	while(1)
+	{
+		if((escolha = menu(0, 0)) == 0)
+			printf("Escolha invalida\n");
+
+
+		else
+		{
+			system("clear");
+
+			//Define a porta a ser conectado//
+			if(escolha > 6000)
+				servidorPorta = PORTA_ALARME;
+
+			else
+				servidorPorta = PORTA_GERAL;
+
+			//Mostra a porta utilizada e a opção espolhida
+			printf("|Escolha %d, Porta %d|\n", escolha, servidorPorta);
+
+			//Abrimos a conexão
+			socket_open(&clienteSocket, &servidorAddr, IP_Servidor, servidorPorta);
+
+			//Enviamos um dado do menu
+			request(&clienteSocket, escolha);
+
+			//Recebemos o retorno do sensor, de acordo com o dado requerido
+			if((escolha > 1000) && (escolha < 2000))
+				receive_float(&clienteSocket);
+
+			if((escolha > 2000) && (escolha < 4000))
+				receive_char(&clienteSocket);
+
+			//Fechamos a conexão com o servidor
+			close(clienteSocket);
+
+		}
+		
+	}
+	
+	exit(0);
+}
